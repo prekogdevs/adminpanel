@@ -7,4 +7,5 @@
     <string name="button_upload_picture_text">Upload picture</string>
     <string name="button_save_customer">Save Customer</string>
     <string name="button_load_customers_text">Load customers</string>
+    <string name="customer_avatar_image_desc">Customer avatar</string>
 </resources>

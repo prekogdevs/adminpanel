@@ -13,31 +13,43 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/customer_avatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/customer_avatar_image_desc"
+            app:customer_avatar="@{customer.avatarUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/customer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{customer.firstName}"
+            app:layout_constraintBottom_toBottomOf="@+id/customer_avatar"
             app:layout_constraintEnd_toStartOf="@+id/customer_email"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="AAAA" />
+            app:layout_constraintStart_toEndOf="@+id/customer_avatar"
+            app:layout_constraintTop_toTopOf="@+id/customer_avatar"
+            tools:text="Mr. John Sample" />
 
         <TextView
             android:id="@+id/customer_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{customer.email}"
+            app:layout_constraintBottom_toBottomOf="@+id/customer_avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/customer_name"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="BBB" />
+            app:layout_constraintTop_toTopOf="@+id/customer_avatar"
+            tools:text="johnsample@example.net" />
 
         <View
             android:id="@+id/view"
@@ -47,7 +59,7 @@
             android:background="#c0c0c0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/customer_name" />
+            app:layout_constraintTop_toBottomOf="@+id/customer_avatar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
