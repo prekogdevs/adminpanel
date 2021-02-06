@@ -7,7 +7,9 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 private const val BASE_URL = "http://10.0.2.2:8080/"
 private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
@@ -23,8 +25,8 @@ interface CustomerService {
     @GET("customer")
     fun getAllcustomers(): Deferred<List<Customer>>
 
-    @GET("customer/{id}")
-    fun getCustomerById(id: String): Deferred<List<Customer>>
+    @POST("customer")
+    fun addCustomer(@Body customer : Customer) : Deferred<Void>
 }
 
 

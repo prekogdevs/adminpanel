@@ -26,4 +26,8 @@ class CustomerViewModel : ViewModel() {
             }
         }
     }
+
+    fun addCustomer(customer: Customer) {
+        CustomerApi.retrofitService.addCustomer(customer)
+    }
 }

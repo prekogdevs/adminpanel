@@ -27,7 +27,7 @@
             app:layout_constraintTop_toBottomOf="@+id/text_view_form_header">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_customer_name_name"
+                android:id="@+id/input_customer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/new_customer_name_hint" />
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/input_customer_name_layout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_customer_email_name"
+                android:id="@+id/input_customer_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/new_customer_email_hint" />
