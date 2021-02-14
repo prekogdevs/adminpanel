@@ -4,13 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.adminpanel.api.CustomerApi
+import com.example.adminpanel.api.CustomerServiceFactory
 import com.example.adminpanel.api.model.Customer
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.lang.Exception
 
 class CustomerViewModel : ViewModel() {
     private val _allCustomersResponse = MutableLiveData<List<Customer>>()
@@ -23,7 +22,7 @@ class CustomerViewModel : ViewModel() {
 
     fun getCustomers() {
         viewModelScope.launch {
-            val customers = CustomerApi.retrofitService.getAllcustomers()
+            val customers = CustomerServiceFactory.createCustomerService().getAllcustomers()
             try {
                 val result = customers.await()
                 _allCustomersResponse.value = result
@@ -34,16 +33,17 @@ class CustomerViewModel : ViewModel() {
         }
     }
 
-    fun addCustomer(customer: Customer, avatar : File) {
+    fun addCustomer(customer: Customer, avatar: File) {
         val avatarBody =
             MultipartBody.Part.createFormData("avatar", avatar.name, avatar.asRequestBody())
         viewModelScope.launch {
-            val addCustomer = CustomerApi.retrofitService.addCustomer(avatarBody, customer)
+            val addCustomer =
+                CustomerServiceFactory.createCustomerService().addCustomer(avatarBody, customer)
             try {
                 val result = addCustomer.await()
                 _newCustomerResponse.value = result
             } catch (e: Exception) {
-                _newCustomerResponse.value = Customer("DUMMY","DUMMY","DUMMY","DUMMY")
+                _newCustomerResponse.value = Customer("DUMMY", "DUMMY", "DUMMY", "DUMMY")
                 e.printStackTrace()
             }
         }
