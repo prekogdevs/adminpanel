@@ -8,4 +8,5 @@
     <string name="button_save_customer">Save Customer</string>
     <string name="button_load_customers_text">Load customers</string>
     <string name="customer_avatar_image_desc">Customer avatar</string>
+    <string name="image_view_avatar_content_desc">selected_avatar_for_new_customer</string>
 </resources>

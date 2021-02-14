@@ -7,27 +7,45 @@ import androidx.lifecycle.viewModelScope
 import com.example.adminpanel.api.CustomerApi
 import com.example.adminpanel.api.model.Customer
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import java.lang.Exception
 
 class CustomerViewModel : ViewModel() {
-    private val _response = MutableLiveData<List<Customer>>()
-    val response: LiveData<List<Customer>>
-        get() = _response
+    private val _allCustomersResponse = MutableLiveData<List<Customer>>()
+    val allCustomersResponse: LiveData<List<Customer>>
+        get() = _allCustomersResponse
+
+    private val _newCustomerResponse = MutableLiveData<Customer>()
+    val newCustomerResponse: LiveData<Customer>
+        get() = _newCustomerResponse
 
     fun getCustomers() {
         viewModelScope.launch {
             val customers = CustomerApi.retrofitService.getAllcustomers()
             try {
                 val result = customers.await()
-                _response.value = result
+                _allCustomersResponse.value = result
             } catch (e: Exception) {
-                _response.value = listOf()
+                _allCustomersResponse.value = listOf()
                 e.printStackTrace()
             }
         }
     }
 
-    fun addCustomer(customer: Customer) {
-        CustomerApi.retrofitService.addCustomer(customer)
+    fun addCustomer(customer: Customer, avatar : File) {
+        val avatarBody =
+            MultipartBody.Part.createFormData("avatar", avatar.name, avatar.asRequestBody())
+        viewModelScope.launch {
+            val addCustomer = CustomerApi.retrofitService.addCustomer(avatarBody, customer)
+            try {
+                val result = addCustomer.await()
+                _newCustomerResponse.value = result
+            } catch (e: Exception) {
+                _newCustomerResponse.value = Customer("DUMMY","DUMMY","DUMMY","DUMMY")
+                e.printStackTrace()
+            }
+        }
     }
 }

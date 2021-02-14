@@ -33,7 +33,7 @@ class CustomerFragment : Fragment() {
             viewModel.getCustomers()
         }
         binding.lifecycleOwner = this
-        viewModel.response.observe(viewLifecycleOwner, {
+        viewModel.allCustomersResponse.observe(viewLifecycleOwner, {
             customerAdapter.submitList(it)
         })
         binding.customerRecyclerView.apply {
