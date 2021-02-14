@@ -17,7 +17,6 @@ import com.example.adminpanel.data.CustomerViewModel
 import com.example.adminpanel.databinding.FragmentNewCustomerBinding
 import com.example.adminpanel.util.RealPathUtil
 import java.io.File
-import java.util.*
 
 
 private const val REQUEST_CODE_PICK_IMAGE = 101
@@ -40,6 +39,10 @@ class NewCustomerFragment : Fragment() {
             DataBindingUtil.inflate(inflater, R.layout.fragment_new_customer, container, false)
 
         binding.buttonUploadPicture.setOnClickListener {
+            requestPermissions(
+                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_WRITE_PERMISSION
+            )
             Intent(Intent.ACTION_PICK).also {
                 it.type = "image/*"
                 val mimeTypes = arrayOf("image/jpeg", "image/png")
@@ -49,7 +52,13 @@ class NewCustomerFragment : Fragment() {
         }
 
         binding.buttonSaveCustomer.setOnClickListener {
-            requestPermissions(arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSION)
+            viewModel.addCustomerWithoutAvatar(
+                Customer(
+                    binding.inputCustomerName.text.toString(),
+                    binding.inputCustomerEmail.text.toString(),
+                    "NO_PIC"
+                )
+            )
         }
         return binding.root
     }
@@ -74,9 +83,8 @@ class NewCustomerFragment : Fragment() {
         grantResults: IntArray
     ) {
         if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            viewModel.addCustomer(
+            viewModel.addCustomerWithAvatar(
                 Customer(
-                    UUID.randomUUID().toString(),
                     binding.inputCustomerName.text.toString(),
                     binding.inputCustomerEmail.text.toString(),
                     "NO_PIC"

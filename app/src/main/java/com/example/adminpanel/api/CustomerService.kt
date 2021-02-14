@@ -3,21 +3,24 @@ package com.example.adminpanel.api
 import com.example.adminpanel.api.model.Customer
 import kotlinx.coroutines.Deferred
 import okhttp3.MultipartBody
-import retrofit2.http.GET
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 // Service Endpoints
 interface CustomerService {
-    @GET("customer")
+    @GET("all")
     fun getAllcustomers(): Deferred<List<Customer>>
 
+    // TODO
     @Multipart
-    @POST("customer")
+    @POST("register")
     fun addCustomer(
         @Part avatar: MultipartBody.Part,
         @Part("new_customer") customer: Customer
+    ): Deferred<Customer>
+
+    @POST("register")
+    fun addCustomerWithoutAvatar(
+        @Body customer: Customer
     ): Deferred<Customer>
 }
 

@@ -33,7 +33,7 @@ class CustomerViewModel : ViewModel() {
         }
     }
 
-    fun addCustomer(customer: Customer, avatar: File) {
+    fun addCustomerWithAvatar(customer: Customer, avatar: File) {
         val avatarBody =
             MultipartBody.Part.createFormData("avatar", avatar.name, avatar.asRequestBody())
         viewModelScope.launch {
@@ -43,7 +43,21 @@ class CustomerViewModel : ViewModel() {
                 val result = addCustomer.await()
                 _newCustomerResponse.value = result
             } catch (e: Exception) {
-                _newCustomerResponse.value = Customer("DUMMY", "DUMMY", "DUMMY", "DUMMY")
+                _newCustomerResponse.value = Customer("DUMMY", "DUMMY", "DUMMY")
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun addCustomerWithoutAvatar(customer: Customer) {
+        viewModelScope.launch {
+            val addCustomer =
+                CustomerServiceFactory.createCustomerService().addCustomerWithoutAvatar(customer)
+            try {
+                val result = addCustomer.await()
+                _newCustomerResponse.value = result
+            } catch (e: Exception) {
+                _newCustomerResponse.value = Customer("DUMMY", "DUMMY", "DUMMY")
                 e.printStackTrace()
             }
         }
