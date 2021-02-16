@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,8 @@ class NewCustomerFragment : Fragment() {
         ViewModelProvider(this).get(CustomerViewModel::class.java)
     }
     private var selectedImageUri: Uri? = null
-    private lateinit var avatar: File
+    private lateinit var selectedPicture: File
+    private lateinit var avatar: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,11 +54,11 @@ class NewCustomerFragment : Fragment() {
         }
 
         binding.buttonSaveCustomer.setOnClickListener {
-            viewModel.addCustomerWithoutAvatar(
+            viewModel.addCustomer(
                 Customer(
                     binding.inputCustomerName.text.toString(),
                     binding.inputCustomerEmail.text.toString(),
-                    "NO_PIC"
+                    avatar
                 )
             )
         }
@@ -70,7 +72,8 @@ class NewCustomerFragment : Fragment() {
                 REQUEST_CODE_PICK_IMAGE -> {
                     selectedImageUri = data?.data
                     binding.imageViewAvatar.setImageURI(selectedImageUri)
-                    avatar = File(RealPathUtil.getRealPath(requireContext(), selectedImageUri!!))
+                    selectedPicture =
+                        File(RealPathUtil.getRealPath(requireContext(), selectedImageUri!!))
                 }
             }
         }
@@ -83,13 +86,7 @@ class NewCustomerFragment : Fragment() {
         grantResults: IntArray
     ) {
         if (requestCode == REQUEST_WRITE_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            viewModel.addCustomerWithAvatar(
-                Customer(
-                    binding.inputCustomerName.text.toString(),
-                    binding.inputCustomerEmail.text.toString(),
-                    "NO_PIC"
-                ), avatar
-            )
+            avatar = Base64.encodeToString(selectedPicture.readBytes(), Base64.DEFAULT)
         }
     }
 }

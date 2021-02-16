@@ -7,9 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.adminpanel.api.CustomerServiceFactory
 import com.example.adminpanel.api.model.Customer
 import kotlinx.coroutines.launch
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 
 class CustomerViewModel : ViewModel() {
     private val _allCustomersResponse = MutableLiveData<List<Customer>>()
@@ -22,7 +19,7 @@ class CustomerViewModel : ViewModel() {
 
     fun getCustomers() {
         viewModelScope.launch {
-            val customers = CustomerServiceFactory.createCustomerService().getAllcustomers()
+            val customers = CustomerServiceFactory.createCustomerService().getAllCustomers()
             try {
                 val result = customers.await()
                 _allCustomersResponse.value = result
@@ -33,31 +30,15 @@ class CustomerViewModel : ViewModel() {
         }
     }
 
-    fun addCustomerWithAvatar(customer: Customer, avatar: File) {
-        val avatarBody =
-            MultipartBody.Part.createFormData("avatar", avatar.name, avatar.asRequestBody())
+    fun addCustomer(customer: Customer) {
         viewModelScope.launch {
             val addCustomer =
-                CustomerServiceFactory.createCustomerService().addCustomer(avatarBody, customer)
+                CustomerServiceFactory.createCustomerService().addCustomer(customer)
             try {
                 val result = addCustomer.await()
                 _newCustomerResponse.value = result
             } catch (e: Exception) {
-                _newCustomerResponse.value = Customer("DUMMY", "DUMMY", "DUMMY")
-                e.printStackTrace()
-            }
-        }
-    }
-
-    fun addCustomerWithoutAvatar(customer: Customer) {
-        viewModelScope.launch {
-            val addCustomer =
-                CustomerServiceFactory.createCustomerService().addCustomerWithoutAvatar(customer)
-            try {
-                val result = addCustomer.await()
-                _newCustomerResponse.value = result
-            } catch (e: Exception) {
-                _newCustomerResponse.value = Customer("DUMMY", "DUMMY", "DUMMY")
+                _newCustomerResponse.value = Customer()
                 e.printStackTrace()
             }
         }
