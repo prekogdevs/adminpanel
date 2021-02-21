@@ -38,7 +38,7 @@ class CustomerViewModel : ViewModel() {
                 val result = addCustomer.await()
                 _newCustomerResponse.value = result
             } catch (e: Exception) {
-                _newCustomerResponse.value = Customer()
+                _newCustomerResponse.value = null // TODO: What to do here
                 e.printStackTrace()
             }
         }
