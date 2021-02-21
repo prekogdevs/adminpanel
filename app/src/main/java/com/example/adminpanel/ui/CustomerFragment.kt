@@ -15,7 +15,7 @@ import com.example.adminpanel.databinding.FragmentCustomerBinding
 class CustomerFragment : Fragment() {
 
     private lateinit var binding: FragmentCustomerBinding
-    private val viewModel by lazy {
+    private val customerViewModel by lazy {
         ViewModelProvider(this).get(CustomerViewModel::class.java)
     }
 
@@ -30,10 +30,10 @@ class CustomerFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_customer, container, false)
         binding.buttonLoadCustomers.setOnClickListener {
-            viewModel.getCustomers()
+            customerViewModel.getCustomers()
         }
         binding.lifecycleOwner = this
-        viewModel.allCustomersResponse.observe(viewLifecycleOwner, {
+        customerViewModel.allCustomersResponse.observe(viewLifecycleOwner, {
             customerAdapter.submitList(it)
         })
         binding.customerRecyclerView.apply {

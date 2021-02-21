@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.adminpanel.api.CustomerServiceFactory
+import com.example.adminpanel.api.factory.RetrofitServiceFactory
 import com.example.adminpanel.api.model.Customer
 import kotlinx.coroutines.launch
 
@@ -19,7 +19,7 @@ class CustomerViewModel : ViewModel() {
 
     fun getCustomers() {
         viewModelScope.launch {
-            val customers = CustomerServiceFactory.createCustomerService().getAllCustomers()
+            val customers = RetrofitServiceFactory.createCustomerService().getAllCustomers()
             try {
                 val result = customers.await()
                 _allCustomersResponse.value = result
@@ -33,7 +33,7 @@ class CustomerViewModel : ViewModel() {
     fun addCustomer(customer: Customer) {
         viewModelScope.launch {
             val addCustomer =
-                CustomerServiceFactory.createCustomerService().addCustomer(customer)
+                RetrofitServiceFactory.createCustomerService().addCustomer(customer)
             try {
                 val result = addCustomer.await()
                 _newCustomerResponse.value = result

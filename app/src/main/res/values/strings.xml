@@ -12,4 +12,5 @@
     <string name="login_text_header">You can login on this page as admin to access customer details</string>
     <string name="login_username_hint">Username</string>
     <string name="login_password_hint">Password</string>
+    <string name="invalid_login_toast_text">Admin name or password is incorrect</string>
 </resources>
