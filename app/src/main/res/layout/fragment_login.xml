@@ -36,7 +36,8 @@
                 android:id="@+id/input_edt_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_username_hint" />
+                android:hint="@string/login_username_hint"
+                android:imeOptions="flagNoExtractUi" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,13 +48,17 @@
             android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toTopOf="@+id/login_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_password_hint" />
+                android:hint="@string/login_password_hint"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="textPassword|textImeMultiLine|textNoSuggestions" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

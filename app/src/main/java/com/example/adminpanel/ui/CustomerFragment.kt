@@ -9,6 +9,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import com.example.adminpanel.api.model.Customer
 import com.example.adminpanel.data.CustomerViewModel
 import com.example.adminpanel.databinding.FragmentCustomerBinding
 import com.example.adminpanel.util.RealPathUtil
+import com.example.adminpanel.util.UIUtils
 import java.io.File
 
 
@@ -31,7 +33,7 @@ class CustomerFragment : Fragment() {
     }
     private var selectedImageUri: Uri? = null
     private lateinit var selectedPicture: File
-    private lateinit var avatar: String
+    private var avatar = ""
     private val customerAdapter by lazy {
         CustomerAdapter()
     }
@@ -59,14 +61,31 @@ class CustomerFragment : Fragment() {
         }
 
         binding.buttonSaveCustomer.setOnClickListener {
-            customerViewModel.addCustomer(
-                Customer(
-                    binding.inputCustomerName.text.toString(),
-                    binding.inputCustomerEmail.text.toString(),
-                    avatar
+            if(binding.inputCustomerName.text.toString().isNotEmpty() && binding.inputCustomerEmail.text.toString().isNotEmpty()) {
+                customerViewModel.addCustomer(
+                    Customer(
+                        binding.inputCustomerName.text.toString(),
+                        binding.inputCustomerEmail.text.toString(),
+                        avatar
+                    )
                 )
-            )
+            }
+            else {
+                Toast.makeText(requireContext(), getString(R.string.username_and_email_is_mandatory_toast_text), Toast.LENGTH_LONG).show()
+            }
         }
+
+        customerViewModel.newCustomerResponse.observe(viewLifecycleOwner, {
+            if(it != null) {
+                UIUtils.closeKeyboard(requireActivity())
+                binding.inputCustomerName.text?.clear()
+                binding.inputCustomerName.clearFocus()
+                binding.inputCustomerEmail.text?.clear()
+                binding.inputCustomerEmail.clearFocus()
+                binding.imageViewAvatar.setImageResource(0)
+            }
+        })
+
         binding.customerRecyclerView.apply {
             adapter = customerAdapter
         }

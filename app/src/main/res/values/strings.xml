@@ -13,4 +13,5 @@
     <string name="login_username_hint">Username</string>
     <string name="login_password_hint">Password</string>
     <string name="invalid_login_toast_text">Admin name or password is incorrect</string>
+    <string name="username_and_email_is_mandatory_toast_text">Username and email is mandatory</string>
 </resources>

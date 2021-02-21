@@ -13,6 +13,7 @@ import com.example.adminpanel.R
 import com.example.adminpanel.api.model.Admin
 import com.example.adminpanel.data.AdminViewModel
 import com.example.adminpanel.databinding.FragmentLoginBinding
+import com.example.adminpanel.util.UIUtils
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -40,6 +41,7 @@ class LoginFragment : Fragment() {
         })
 
         binding.loginButton.setOnClickListener {
+            UIUtils.closeKeyboard(requireActivity())
             adminViewModel.login(
                 Admin(
                     binding.inputEdtUsername.text.toString(),
