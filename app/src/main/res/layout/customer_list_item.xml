@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/customer_avatar"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/customer_avatar_image_desc"
@@ -31,10 +31,9 @@
             android:id="@+id/customer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="@{customer.name}"
             app:layout_constraintBottom_toBottomOf="@+id/customer_avatar"
-            app:layout_constraintEnd_toStartOf="@+id/customer_email"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/customer_avatar"
             app:layout_constraintTop_toTopOf="@+id/customer_avatar"
             tools:text="Mr. John Sample" />
@@ -43,13 +42,37 @@
             android:id="@+id/customer_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{customer.email}"
+            app:layout_constrainedWidth="true"
             app:layout_constraintBottom_toBottomOf="@+id/customer_avatar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/image_view_delete"
             app:layout_constraintStart_toEndOf="@+id/customer_name"
             app:layout_constraintTop_toTopOf="@+id/customer_avatar"
-            tools:text="johnsample@example.net" />
+            tools:text="johnsample@example.com" />
+
+        <ImageButton
+            android:id="@+id/image_view_delete"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_delete_24"
+            app:layout_constraintBottom_toBottomOf="@+id/customer_email"
+            app:layout_constraintEnd_toStartOf="@+id/image_view_edit"
+            app:layout_constraintTop_toTopOf="@+id/customer_email" />
+
+        <ImageButton
+            android:id="@+id/image_view_edit"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_edit_24"
+            app:layout_constraintBottom_toBottomOf="@+id/customer_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/customer_email" />
 
         <View
             android:id="@+id/view"
