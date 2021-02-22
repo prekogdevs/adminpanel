@@ -10,6 +10,6 @@ interface AdminService {
     @POST("admin/login")
     fun login(
         @Body admin: Admin
-    ): Deferred<Admin>
+    ): Deferred<Boolean>
 }
 

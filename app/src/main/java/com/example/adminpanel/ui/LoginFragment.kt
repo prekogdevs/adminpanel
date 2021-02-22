@@ -28,8 +28,8 @@ class LoginFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         binding.lifecycleOwner = this
-        adminViewModel.adminResponse.observe(viewLifecycleOwner, {
-            if (it != null) {
+        adminViewModel.adminLoginResult.observe(viewLifecycleOwner, { isSuccessfulLogin ->
+            if (isSuccessfulLogin != null) {
                 findNavController().navigate(R.id.action_loginFragment_to_customerFragment)
             } else {
                 Toast.makeText(

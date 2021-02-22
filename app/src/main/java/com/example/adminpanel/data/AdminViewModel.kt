@@ -9,18 +9,18 @@ import com.example.adminpanel.api.model.Admin
 import kotlinx.coroutines.launch
 
 class AdminViewModel : ViewModel() {
-    private val _adminResponse = MutableLiveData<Admin>()
-    val adminResponse: LiveData<Admin>
-        get() = _adminResponse
+    private val _adminLoginResult = MutableLiveData<Boolean>()
+    val adminLoginResult: LiveData<Boolean>
+        get() = _adminLoginResult
 
     fun login(admin: Admin) {
         viewModelScope.launch {
-            val customers = RetrofitServiceFactory.createAdminService().login(admin)
+            val loginResult = RetrofitServiceFactory.createAdminService().login(admin)
             try {
-                val result = customers.await()
-                _adminResponse.value = result
+                val result = loginResult.await()
+                _adminLoginResult.value = result
             } catch (e: Exception) {
-                _adminResponse.value = null
+                _adminLoginResult.value = null
                 e.printStackTrace()
             }
         }
