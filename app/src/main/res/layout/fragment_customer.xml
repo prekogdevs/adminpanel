@@ -94,16 +94,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_save_customer" />
 
-            <Button
-                android:id="@+id/button_load_customers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/customer_recycler_view"
-                android:layout_marginTop="16dp"
-                android:text="@string/button_load_customers_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customer_recycler_view" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/customer_recycler_view"
                 android:layout_width="match_parent"

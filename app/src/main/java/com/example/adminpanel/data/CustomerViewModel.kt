@@ -17,9 +17,19 @@ class CustomerViewModel : ViewModel() {
     val newCustomerResponse: LiveData<Customer>
         get() = _newCustomerResponse
 
+    private val _deletedCustomerResponse = MutableLiveData<Customer>()
+    val deletedCustomerResponse: LiveData<Customer>
+        get() = _deletedCustomerResponse
+
+    private val customerRetrofitService = RetrofitServiceFactory.createCustomerService()
+
+    init {
+        getCustomers()
+    }
+
     fun getCustomers() {
         viewModelScope.launch {
-            val customers = RetrofitServiceFactory.createCustomerService().getAllCustomers()
+            val customers = customerRetrofitService.getAllCustomers()
             try {
                 val result = customers.await()
                 _allCustomersResponse.value = result
@@ -33,12 +43,26 @@ class CustomerViewModel : ViewModel() {
     fun addCustomer(customer: Customer) {
         viewModelScope.launch {
             val addCustomer =
-                RetrofitServiceFactory.createCustomerService().addCustomer(customer)
+                customerRetrofitService.addCustomer(customer)
             try {
                 val result = addCustomer.await()
                 _newCustomerResponse.value = result
             } catch (e: Exception) {
                 _newCustomerResponse.value = null
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun deleteCustomer(customer: Customer) {
+        viewModelScope.launch {
+            val deletedCustomer =
+                customerRetrofitService.deleteCustomer(customer.id)
+            try {
+                val result = deletedCustomer.await()
+                _deletedCustomerResponse.value = result
+            } catch (e: Exception) {
+                _deletedCustomerResponse.value = null
                 e.printStackTrace()
             }
         }

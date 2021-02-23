@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.adminpanel.R
 import com.example.adminpanel.adapter.CustomerAdapter
+import com.example.adminpanel.adapter.OnDeleteClickListener
 import com.example.adminpanel.api.model.Customer
 import com.example.adminpanel.data.CustomerViewModel
 import com.example.adminpanel.databinding.FragmentCustomerBinding
@@ -34,8 +35,15 @@ class CustomerFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private lateinit var selectedPicture: File
     private var avatar = ""
+
+    private val onDeleteClickListener = object : OnDeleteClickListener {
+        override fun onClick(customer: Customer) {
+            customerViewModel.deleteCustomer(customer)
+        }
+    }
+
     private val customerAdapter by lazy {
-        CustomerAdapter()
+        CustomerAdapter(onDeleteClickListener)
     }
 
 
@@ -61,7 +69,9 @@ class CustomerFragment : Fragment() {
         }
 
         binding.buttonSaveCustomer.setOnClickListener {
-            if(binding.inputCustomerName.text.toString().isNotEmpty() && binding.inputCustomerEmail.text.toString().isNotEmpty()) {
+            if (binding.inputCustomerName.text.toString()
+                    .isNotEmpty() && binding.inputCustomerEmail.text.toString().isNotEmpty()
+            ) {
                 customerViewModel.addCustomer(
                     Customer(
                         binding.inputCustomerName.text.toString(),
@@ -69,21 +79,26 @@ class CustomerFragment : Fragment() {
                         avatar
                     )
                 )
-            }
-            else {
-                Toast.makeText(requireContext(), getString(R.string.username_and_email_is_mandatory_toast_text), Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.username_and_email_is_mandatory_toast_text),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
 
         customerViewModel.newCustomerResponse.observe(viewLifecycleOwner, {
-            if(it != null) {
+            it?.let {
                 UIUtils.closeKeyboard(requireActivity())
                 binding.inputCustomerName.text?.clear()
                 binding.inputCustomerName.clearFocus()
                 binding.inputCustomerEmail.text?.clear()
                 binding.inputCustomerEmail.clearFocus()
                 binding.imageViewAvatar.setImageResource(0)
+                customerViewModel.getCustomers()
             }
+
         })
 
         binding.customerRecyclerView.apply {
@@ -94,9 +109,16 @@ class CustomerFragment : Fragment() {
             customerAdapter.submitList(it)
         })
 
-        binding.buttonLoadCustomers.setOnClickListener {
-            customerViewModel.getCustomers()
-        }
+        customerViewModel.deletedCustomerResponse.observe(viewLifecycleOwner, {
+            it?.let {
+                Toast.makeText(
+                    requireContext(),
+                    "Customer with name: ${it.name} has been removed",
+                    Toast.LENGTH_SHORT
+                ).show()
+                customerViewModel.getCustomers()
+            }
+        })
         return binding.root
     }
 

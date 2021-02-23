@@ -6,7 +6,6 @@
     <string name="new_customer_email_hint">Enter your e-mail here</string>
     <string name="button_upload_picture_text">Upload picture</string>
     <string name="button_save_customer">Save Customer</string>
-    <string name="button_load_customers_text">Load customers</string>
     <string name="customer_avatar_image_desc">Customer avatar</string>
     <string name="image_view_avatar_content_desc">selected_avatar_for_new_customer</string>
     <string name="login_text_header">You can login on this page as admin to access customer details</string>
@@ -14,4 +13,6 @@
     <string name="login_password_hint">Password</string>
     <string name="invalid_login_toast_text">Admin name or password is incorrect</string>
     <string name="username_and_email_is_mandatory_toast_text">Username and email is mandatory</string>
+    <string name="image_button_delete_customer_desc">image_button_delete_customer</string>
+    <string name="image_button_edit_customer_desc">image_button_edit_customer</string>
 </resources>

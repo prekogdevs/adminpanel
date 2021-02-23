@@ -2,9 +2,7 @@ package com.example.adminpanel.api.service
 
 import com.example.adminpanel.api.model.Customer
 import kotlinx.coroutines.Deferred
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 // Customer Service Endpoints
 interface CustomerService {
@@ -15,5 +13,8 @@ interface CustomerService {
     fun addCustomer(
         @Body customer: Customer
     ): Deferred<Customer>
+
+    @DELETE("customer/delete/{id}")
+    fun deleteCustomer(@Path("id") customerId: Long): Deferred<Customer>
 }
 
